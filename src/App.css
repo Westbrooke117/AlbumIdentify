@@ -8,7 +8,6 @@
 
 .block {
     display:table-cell;
-
     background: #F5F1ED;
     /*border:2px solid #FFF;*/
 }
@@ -21,7 +20,7 @@
     display:table;
     /*border-collapse:collapse;*/
     box-sizing:border-box;
-    background: url(https://lastfm.freetls.fastly.net/i/u/770x0/a701bd388c95415ac140405686cdd0af.jpg#a701bd388c95415ac140405686cdd0af) no-repeat center center;
+    /*background: url(https://lastfm.freetls.fastly.net/i/u/770x0/a701bd388c95415ac140405686cdd0af.jpg#a701bd388c95415ac140405686cdd0af) no-repeat center center;*/
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;

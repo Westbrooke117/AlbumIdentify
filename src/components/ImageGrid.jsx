@@ -1,20 +1,50 @@
-const ImageGrid = (props) => {
-    const w = props.width;
-    const h = props.height;
+import {useEffect, useState} from "react";
+import axios from "axios";
 
-    return(
-        <div id="totalContainer">
-            <div id="background-container">
-                {
-                    new Array(h).fill(0).map((x,i1)=>
+const ImageGrid = (props) => {
+    const width = props.width;
+    const height = props.height;
+
+    const [url, setUrl] = useState(null);
+
+    useEffect(() => {
+        async function getAlbumURL(){
+            const api = axios.create();
+            try {
+                const response = await api.get(`https://ws.audioscrobbler.com/2.0/?method=album.getinfo&artist=${props.artist}&album=${props.album}&api_key=82d112e473f59ade0157abe4a47d4eb5&format=json`);
+                setUrl(response.data.album.image[5]["#text"]);
+                console.log(response.data.album.image[5]["#text"])
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        getAlbumURL()
+    }, [props.artist, props.album]);
+
+    if (url === null) {
+        return (<p>Loading...</p>);
+    } else {
+        return (
+            <div id="totalContainer">
+                <div id="background-container" style={{background: `url(${url}) no-repeat center center`, backgroundSize:"100%"}}>
+                    {Array(height).fill(0).map((row, i) => (
                         <div className="blocks">
-                            {(new Array(w)).fill(0).map((y,i2)=><div className="block" id={`block(${i2},${i1})`} style={{width:`${100/w}%`, height: `${100/h}%`}}></div>)}
+                            {Array(width).fill(0).map((col, j) => (
+                                <div
+                                    className="block"
+                                    id={`block(${j},${i})`}
+                                    style={{
+                                        width: `${100 / width}%`,
+                                        height: `${100 / height}%`,
+                                    }}
+                                />
+                            ))}
                         </div>
-                    )
-                }
+                    ))}
+                </div>
             </div>
-        </div>
-    )
-}
+        );
+    }
+};
 
 export default ImageGrid;
