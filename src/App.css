@@ -1,42 +1,41 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.html {
+    background: #F5F1ED;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.blocks {
+    display:table-row;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.block {
+    display:table-cell;
+
+    background: #F5F1ED;
+    /*border:2px solid #FFF;*/
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+
+#background-container {
+    width: 500px;
+    height: 500px;
+    /*border: solid black 1px;*/
+    display:table;
+    /*border-collapse:collapse;*/
+    box-sizing:border-box;
+    background: url(https://lastfm.freetls.fastly.net/i/u/770x0/a701bd388c95415ac140405686cdd0af.jpg#a701bd388c95415ac140405686cdd0af) no-repeat center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 
-.card {
-  padding: 2em;
+
+.block:hover{
+    transition: 3s;
+    background: #0000;
 }
 
-.read-the-docs {
-  color: #888;
+#totalContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
