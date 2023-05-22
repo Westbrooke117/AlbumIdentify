@@ -4,7 +4,7 @@ import ImageGrid from "./components/ImageGrid.jsx";
 function App() {
   return (
     <div className="App">
-        <ImageGrid width={9} height={9} artist={"aurora"} album={"a different kind of human"}/>
+        <ImageGrid width={5} height={5} artist={"tame impala"} album={"the slow rush"}/>
     </div>
   )
 }

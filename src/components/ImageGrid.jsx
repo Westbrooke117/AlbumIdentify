@@ -1,6 +1,16 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
 
+class AlbumQuestion {
+    constructor(url, album_name, artist) {
+        this.url = url;
+        this.album_name = album_name;
+        this.artist = artist;
+    }
+    CheckAnswer(userResponse){
+        return userResponse === this.album_name;
+    }
+}
 const ImageGrid = (props) => {
     const width = props.width;
     const height = props.height;
@@ -13,7 +23,6 @@ const ImageGrid = (props) => {
             try {
                 const response = await api.get(`https://ws.audioscrobbler.com/2.0/?method=album.getinfo&artist=${props.artist}&album=${props.album}&api_key=82d112e473f59ade0157abe4a47d4eb5&format=json`);
                 setUrl(response.data.album.image[5]["#text"]);
-                console.log(response.data.album.image[5]["#text"])
             } catch (err) {
                 console.log(err);
             }
@@ -32,7 +41,8 @@ const ImageGrid = (props) => {
                             {Array(width).fill(0).map((col, j) => (
                                 <div
                                     className="block"
-                                    id={`block(${j},${i})`}
+                                    key={`${i+1},${j+1}`}
+                                    id={`${i+1},${j+1}`}
                                     style={{
                                         width: `${100 / width}%`,
                                         height: `${100 / height}%`,
