@@ -4,7 +4,7 @@ const ImageGrid = (props) => {
     const width = props.width;
     const height = props.height;
 
-    const delay = 3000; // time between revealing of tiles
+    const delay = 3000; // time between revealing of tiles in milliseconds
     const [squares, setSquares] = useState(Array.from({ length: width * height }, (_, i) => i)); // list of squares left to reveal (1D array)
     const refs = useRef({}); // keeps track of tiles, this initializes it
     let interval = useRef(null); // interval that repeatedly calls to reveal tiles
