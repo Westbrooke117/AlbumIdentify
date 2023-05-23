@@ -27,8 +27,7 @@
     background-size: cover;
 }
 
-
-.block:hover{
+.block.revealed{
     transition: 3s;
     background: #0000;
 }

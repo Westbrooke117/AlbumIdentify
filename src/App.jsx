@@ -17,7 +17,7 @@ function App() {
 
     return (
         <div className="App">
-            {albums.length > 0 && <ImageGrid width={5} height={5} data={albums[count]}/>}
+            {albums.length > 0 && <ImageGrid width={9} height={9} data={albums[count]}/>}
             <div className={"centerContent"}>
                 <button onClick={() => {setCount(count + 1)}}>Next Album</button>
             </div>
