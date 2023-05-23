@@ -1,4 +1,4 @@
-import {useRef, createRef, Component} from "react";
+import {createRef, Component} from "react";
 class ImageGrid extends Component {
     state = {
         squares: [],
@@ -7,7 +7,6 @@ class ImageGrid extends Component {
     constructor(props){
         super(props)
         this.state.squares = Array.from({ length: props.width * props.height }, (_, i) => i); // list of squares left to reveal (1D array)
-        
         this.refs = createRef(); // keeps track of tiles, this initializes it
     }
     componentDidMount(){   
