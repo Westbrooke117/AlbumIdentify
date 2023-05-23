@@ -17,7 +17,7 @@ function App() {
     }, []);
 
     let rf1 = createRef()
-    let rf2 = createRef()
+    let inputRef = createRef()
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -27,12 +27,18 @@ function App() {
         console.log(":(")
     }
 
+    const [ score, setScore ] = useState(0);
+
     return (
         <div className="App">
-            { albums.length > 0 && <ImageGrid itsover={itsover} ref={rf1} delay={5000} width={5} height={5} data={albums[index]}/> }
+            <h2 className={"centerContent"}>Score: {score}</h2>
+            <div className={"centerContent"}>
+                <button onClick={() => {NextAlbum()}}>Skip Album</button>
+            </div>
+            { albums.length > 0 && <ImageGrid itsover={itsover} ref={rf1} delay={5000} width={7} height={7} data={albums[index]}/> }
             <div className={"centerContent"}>
                 <form onSubmit={handleSubmit}>
-                    <input type={"text"} ref={rf2} list={"guess-input"} size={40}></input>
+                    <input type={"text"} ref={inputRef} list={"guess-input"} size={40}></input>
                     {/* <datalist id={"guess-input"}>
                         {albums.map((album, i) => (
                             <option key={i} value={album.album} />
@@ -46,25 +52,30 @@ function App() {
     )
 
     function GetStringSimilarity(){
-        let userInput = rf2.current.value, answer = albums[index].album;
+        let userInput = inputRef.current.value, answer = albums[index].album;
 
         userInput = userInput.toLowerCase().replace(/[^\w\s]|_/g, "").replace(/\s+/g, " ");
         answer = answer.toLowerCase().replace(/[^\w\s]|_/g, "").replace(/\s+/g, " ");
 
         let compare = stringSimilarity.compareTwoStrings(userInput, answer);
         if(compare >= 0.75) {
-            rf2.current.value = "";
+            inputRef.current.value = "";
             setSimilarityValue(`Correct! Answer was "${albums[index].album}" by ${albums[index].artist}`)
-            // console.log(`${text} - ${answer} => ${compare}`);
-            albums.splice(index, 1);
-            setAlbums(albums);
 
-            setIndex(Math.floor(Math.random()*albums.length))
-            rf1.current.newImage();
+            NextAlbum();
+            setScore(score + 1);
         } else {
             setSimilarityValue(Math.floor((compare/1)*100)+"% similar")
         }
     }
+
+    function NextAlbum(){
+        albums.splice(index, 1);
+        setAlbums(albums);
+        setIndex(Math.floor(Math.random()*albums.length))
+        rf1.current.newImage();
+    }
 }
+
 
 export default App
