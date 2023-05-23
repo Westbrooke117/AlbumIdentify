@@ -28,13 +28,14 @@ const ImageGrid = (props) => {
             }
         }
         getAlbumURL()
+
     }, [props.artist, props.album]);
 
     if (url === null) {
         return (<p>Loading...</p>);
     } else {
         return (
-            <div id="totalContainer">
+            <div className="center">
                 <div id="background-container" style={{background: `url(${url}) no-repeat center center`, backgroundSize:"100%"}}>
                     {Array(height).fill(0).map((row, i) => (
                         <div className="blocks">

@@ -33,7 +33,7 @@
     background: #0000;
 }
 
-#totalContainer{
+.center{
     display: flex;
     align-items: center;
     justify-content: center;
