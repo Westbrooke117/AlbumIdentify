@@ -6,7 +6,7 @@ import {getAlbumData} from "./GetAlbumData.jsx";
 function App() {
     const [albums, setAlbums] = useState([]);
     const [index, setIndex] = useState(Math.floor(Math.random()*50));
-    const [similarityValue, setSimilarityValue] = useState("");
+    let [similarityValue, setSimilarityValue] = useState("");
 
     useEffect(() => { //Fetches data required for getting image, artist, and album title
         const fetchData = async () => {
@@ -57,15 +57,16 @@ function App() {
         userInput = userInput.toLowerCase().replace(/[^\w\s]|_/g, "").replace(/\s+/g, " ");
         answer = answer.toLowerCase().replace(/[^\w\s]|_/g, "").replace(/\s+/g, " ");
 
-        let compare = stringSimilarity.compareTwoStrings(userInput, answer);
-        if(compare >= 0.75) {
+        similarityValue = stringSimilarity.compareTwoStrings(userInput, answer);
+
+        if (similarityValue >= 0.75) {
             inputRef.current.value = "";
             setSimilarityValue(`Correct! Answer was "${albums[index].album}" by ${albums[index].artist}`)
+            setScore(score + 1);
 
             NextAlbum();
-            setScore(score + 1);
         } else {
-            setSimilarityValue(Math.floor((compare/1)*100)+"% similar")
+            setSimilarityValue(Math.floor((similarityValue/1)*100)+"% similar") //Shows the user their % similarity to the answer
         }
     }
 
