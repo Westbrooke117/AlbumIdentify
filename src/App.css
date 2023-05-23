@@ -18,7 +18,7 @@
     height: 500px;
     /*border: solid black 1px;*/
     display:table;
-    border-collapse:collapse;
+    /*border-collapse:collapse;*/
     box-sizing:border-box;
     /*background: url(https://lastfm.freetls.fastly.net/i/u/770x0/a701bd388c95415ac140405686cdd0af.jpg#a701bd388c95415ac140405686cdd0af) no-repeat center center;*/
     -webkit-background-size: cover;
@@ -28,12 +28,12 @@
 }
 
 
-.block:hover{
+.block.revealed{
     transition: 3s;
     background: #0000;
 }
 
-.centerContent{
+#totalContainer{
     display: flex;
     align-items: center;
     justify-content: center;
