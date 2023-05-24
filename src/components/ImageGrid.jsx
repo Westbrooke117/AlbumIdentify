@@ -10,10 +10,14 @@ class ImageGrid extends Component {
         this.refs = createRef(); // keeps track of tiles, this initializes it
     }
     componentDidMount(){   
-        if(this.state.interval === false) this.state.interval = setInterval(_=>this.revealSquare(), this.props.delay);
+        if(this.state.interval === false) {
+            this.state.interval = setInterval(_=>this.revealSquare(), this.props.delay);
+            setTimeout(this.revealSquare(), 20);
+        }
     }
     componentDidUpdate(){
-        this.revealSquare();
+        // console.log("huh");
+        // this.revealSquare();
     }
 
     newImage(){
@@ -23,6 +27,14 @@ class ImageGrid extends Component {
         }
         clearInterval(this.state.interval);
         this.state.interval = setInterval(_=>this.revealSquare(), this.props.delay);
+        setTimeout(this.revealSquare(), 20);
+    }
+    revealAll(){
+        clearInterval(this.state.interval)
+        this.state.interval = false;
+        for(let i = 0; i < this.state.squares.length; i++){
+            this.refs[this.state.squares[i]].classList.add('revealed');
+        }
     }
     revealSquare(){
         let ri = Math.floor(Math.random() * this.state.squares.length); // get random place in squares left (as squares index not tiles id)
@@ -38,26 +50,24 @@ class ImageGrid extends Component {
         const width = this.props.width;
         const height = this.props.height;
         this.refs = [];
-        return <div className="centerContent">
-                <div id="background-container" style={{backgroundImage: `url(${this.props.data.url})`, backgroundRepeat: 'no-repeat', backgroundPosition: 'center center', backgroundSize: '100%'}}>
-                {Array(height).fill(0).map((row, i) => (
-                        <div key={i} className="blocks">
-                            {Array(width).fill(0).map((col, j) => (
-                                <div
-                                    className="block"
-                                    id={`${i},${j}`}
-                                    key={j}
-                                    ref = {e=>this.refs[i+j*width]=e} // sets the tile div into refs to be gotten later (with 1D id)
-                                    style={{
-                                        width: `${100 / width}%`,
-                                        height: `${100 / height}%`,
-                                    }}
-                                />
-                            ))}
-                        </div>
-                    ))}
-                </div>
-            </div>
+        return <div id="background-container" style={{backgroundImage: `url(${this.props.data.url})`, backgroundRepeat: 'no-repeat', backgroundPosition: 'center center', backgroundSize: '100%'}}>
+            {Array(height).fill(0).map((row, i) => (
+                    <div key={i} className="blocks">
+                        {Array(width).fill(0).map((col, j) => (
+                            <div
+                                className="block"
+                                id={`${i},${j}`}
+                                key={j}
+                                ref = {e=>this.refs[i+j*width]=e} // sets the tile div into refs to be gotten later (with 1D id)
+                                style={{
+                                    width: `${100 / width}%`,
+                                    height: `${100 / height}%`,
+                                }}
+                            />
+                        ))}
+                    </div>
+                ))}
+        </div>
     }
 }
 // (props) => {

@@ -5,76 +5,164 @@ import {getAlbumData} from "./GetAlbumData.jsx";
 
 function App() {
     const [albums, setAlbums] = useState([]);
-    const [index, setIndex] = useState(Math.floor(Math.random()*50));
-    let [similarityValue, setSimilarityValue] = useState("");
+    const [index, setIndex] = useState(Math.floor(Math.random()*albums.length));
+    let [artistSim, setArtistSim] = useState("");
+    let [albumSim, setAlbumSim] = useState("");
+    let [doneArtist, setDoneArtist] = useState(false);
+    let [doneAlbum, setDoneAlbum] = useState(false);
+    let [ finished, finish ] = useState(false);
 
-    useEffect(() => { //Fetches data required for getting image, artist, and album title
-        const fetchData = async () => {
-            const data = await getAlbumData("westbrooke117");
+    useEffect(() => {
+        (async () => {
+            const data = await getAlbumData("nichowas12");
             setAlbums(data);
-        };
-        fetchData();
+        })();
     }, []);
 
     let rf1 = createRef()
-    let inputRef = createRef()
+    let artistRef = createRef()
+    let albumRef = createRef()
+    
+    
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        GetStringSimilarity();
-    };
-    let itsover = ()=>{
-        console.log(":(")
-    }
-
-    const [ score, setScore ] = useState(0);
+    let [ score, setScore ] = useState([0, 6]);
 
     return (
         <div className="App">
-            <h2 className={"centerContent"}>Score: {score}</h2>
             <div className={"centerContent"}>
-                <button onClick={() => {NextAlbum()}}>Skip Album</button>
-            </div>
-            { albums.length > 0 && <ImageGrid itsover={itsover} ref={rf1} delay={5000} width={7} height={7} data={albums[index]}/> }
-            <div className={"centerContent"}>
-                <form onSubmit={handleSubmit}>
-                    <input type={"text"} ref={inputRef} list={"guess-input"} size={40}></input>
-                    {/* <datalist id={"guess-input"}>
-                        {albums.map((album, i) => (
-                            <option key={i} value={album.album} />
-                            ))}
-                    </datalist> */}
-                    <button type={"submit"}>Next Album</button>
+                { albums.length > 0 && <ImageGrid itsover={submitPressed} ref={rf1} delay={3000} width={8} height={8} data={albums[index]}/> }
+                <div id="textinputs">
+                <form onSubmit={artistSubmit}>
+                    <label htmlFor="artistinput">artist</label>
+                    <input id={"artistinput"} className={"textinput"} type={"text"} ref={artistRef} list={"artist-input"} size={30} autoComplete="off"></input>
                 </form>
+                <form onSubmit={albumSubmit}>
+                    <label htmlFor="albuminput">album</label>
+                    <input id={"albuminput"} className={"textinput"} type={"text"} ref={albumRef} list={"album-input"} size={30} autoComplete="off"></input>
+                </form>
+                </div>
+                <button className={`submitbutton${finished?" finished":""}`} onClick={submitPressed}>{finished?"Next":"Give Up"}</button>
+                <h2 id="scoreheader" className={"centerContent"}>{score[0]}/{score[1]}</h2>
             </div>
-            <p className={"centerContent"}>{similarityValue}</p>
+            {/* <p className={"centerContent"}>{artistSim}</p> */}
         </div>
     )
-
-    function GetStringSimilarity(){
-        let userInput = inputRef.current.value, answer = albums[index].album;
-
-        userInput = userInput.toLowerCase().replace(/[^\w\s]|_/g, "").replace(/\s+/g, " ");
-        answer = answer.toLowerCase().replace(/[^\w\s]|_/g, "").replace(/\s+/g, " ");
-
-        similarityValue = stringSimilarity.compareTwoStrings(userInput, answer);
-
-        if (similarityValue >= 0.75) {
-            inputRef.current.value = "";
-            setSimilarityValue(`Correct! Answer was "${albums[index].album}" by ${albums[index].artist}`)
-            setScore(score + 1);
-
-            NextAlbum();
+    function submitPressed(){
+        if(finished){
+            nextAlbum();
         } else {
-            setSimilarityValue(Math.floor((similarityValue/1)*100)+"% similar") //Shows the user their % similarity to the answer
+            // give up
+            artistRef.current.value = albums[index].artist;
+            albumRef.current.disabled = true;
+            albumRef.current.value = albums[index].album;
+            artistRef.current.disabled = true;
+            finished = true;
+            finish(true);
+            rf1.current.revealAll();
+
         }
     }
+    function artistSubmit(e=false) {
+        if(e !== false)e.preventDefault();
 
-    function NextAlbum(){
+        let artistInput = artistRef.current.value;
+        let artistAnswer = albums[index].artist;
+
+        if(artistInput === "") return
+        artistInput = artistInput.toLowerCase().replace(/[^\w\s]|_/g, "").replace(/\s+/g, " ");
+        artistAnswer = artistAnswer.toLowerCase().replace(/[^\w\s]|_/g, "").replace(/\s+/g, " ");       
+
+        artistSim = stringSimilarity.compareTwoStrings(artistInput, artistAnswer);
+        setArtistSim(artistSim);
+        switch(manageClass(artistRef.current, artistSim)){
+            case 0:
+                artistRef.current.value = albums[index].artist;
+                doneArtist = true;
+                setDoneArtist(true);
+                score[0] += 2;
+                setScore(score);
+                if(doneAlbum){
+                    finished = true;
+                    finish(true)
+                    rf1.current.revealAll();
+                    return;
+                }
+                albumRef.current.focus();
+                break;
+            }
+    }
+    function albumSubmit(e=false){
+        if(e !== false)e.preventDefault();
+
+        let albumInput = albumRef.current.value
+        let albumAnswer = albums[index].album;
+
+        if(albumInput === "") return;
+        
+        albumInput = albumInput.toLowerCase().replace(/[^\w\s]|_/g, "").replace(/\s+/g, " ");
+        albumAnswer = albumAnswer.toLowerCase().replace(/[^\w\s]|_/g, "").replace(/\s+/g, " ");
+
+        albumSim = stringSimilarity.compareTwoStrings(albumInput, albumAnswer);
+        setAlbumSim(albumSim);
+        switch(manageClass(albumRef.current, albumSim)){
+            case 0:
+                albumRef.current.value = albums[index].album;
+                doneAlbum = true;
+                setDoneAlbum(true);
+                score[0] += 4;
+                setScore(score);
+                if(doneArtist){
+                    finished = true;
+                    finish(true);
+                    rf1.current.revealAll();
+                    return;
+                }
+                artistRef.current.focus();
+                break;
+        }
+    }
+    function manageClass(div, sim){
+        if (sim >= 0.75) {            
+            div.disabled = true;
+            div.classList.remove("incorrect");
+            div.classList.remove("semicorrect");
+            div.classList.add("correct");
+            return 0;
+        } else if(sim >= 0.5) {
+            div.classList.remove("incorrect");
+            div.classList.add("semicorrect");
+            return 1;
+        } else {
+            div.classList.remove("semicorrect");
+            div.classList.add("incorrect");
+            return 2;
+        }
+    }
+    function nextAlbum(){
+        score[1] += 6
+        setScore(score);
+
         albums.splice(index, 1);
         setAlbums(albums);
         setIndex(Math.floor(Math.random()*albums.length))
         rf1.current.newImage();
+        artistRef.current.classList.remove('correct');
+        artistRef.current.disabled = false;
+        artistRef.current.value = "";
+        artistRef.current.focus();
+
+        albumRef.current.classList.remove('correct');
+        albumRef.current.disabled = false;
+        albumRef.current.value = "";
+
+        doneAlbum = false;
+        doneArtist = false;
+        setDoneAlbum(false);
+        setDoneArtist(false);
+        finished = false;
+        finish(false);
+
+        
     }
 }
 

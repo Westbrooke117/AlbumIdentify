@@ -6,11 +6,13 @@ export const getAlbumData = async (username) => {
 
     try {
         const response = await api.get(
-            `https://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user=${username}&api_key=82d112e473f59ade0157abe4a47d4eb5&format=json`
+            `https://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user=${username}&period=7day&api_key=82d112e473f59ade0157abe4a47d4eb5&format=json`
         );
         const album = response.data.topalbums.album;
 
-        for (let i = 0; i < 50; i++) { //Iterate over top 50 albums
+        let amount = album.length;
+        if(amount > 50) amount = 50;
+        for (let i = 0; i < amount; i++) { //Iterate over top 50 albums
             albumData.push({
                 artist: album[i].artist.name,
                 album: album[i].name,

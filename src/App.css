@@ -1,7 +1,9 @@
-.html {
-    background: #F5F1ED;
+html {
+    --bgcolor: #111;
+    background-color: var(--bgcolor);
+    color: #fff;
+    font: Arial;
 }
-
 .blocks {
     display:table-row;
 }
@@ -11,7 +13,9 @@
     background: #F5F1ED;
     /*border:2px solid #FFF;*/
 }
-
+#scoreheader{ 
+    margin-bottom: 0;
+}
 
 #background-container {
     width: 500px;
@@ -20,11 +24,12 @@
     display:table;
     border-collapse:collapse;
     box-sizing:border-box;
-    /*background: url(https://lastfm.freetls.fastly.net/i/u/770x0/a701bd388c95415ac140405686cdd0af.jpg#a701bd388c95415ac140405686cdd0af) no-repeat center center;*/
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    margin-bottom: 10px;
+    box-shadow: 0px 5px 10px 0px #aaf;
 }
 
 .block.revealed{
@@ -34,6 +39,87 @@
 
 .centerContent{
     display: flex;
+    /* flex-shrink: 100; */
+    width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    /* width: fit-content; */
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
+
+#textinputs {
+    /* display */
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+form {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+label {
+    /* float: left; */
+    min-width: 60px;
+    display: inline;
+    font-size: 20px;
+    height: 40px;
+    line-height: 40px;
+    padding-right: 20px;
+    font-family: Arial;
+    /* vertical-align: middle; */
+}
+.textinput {
+    /* float: right; */
+    flex-grow: 1;
+    flex-shrink: 1;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 20px;
+    appearance: none;
+    margin: 1px;
+    padding: 3px;
+    padding-left: 20px;
+    padding-right: 10px;
+    outline: none;
+    background-color: #0000;
+    border: 2px solid;
+    color: #fff;
+    border-color: #fff;
+    font-size: 20px;
+}
+
+.correct {
+    color: #0f0;
+    border-color: #0f0;
+}
+.incorrect {
+    border-color: #f00;
+}
+.semicorrect {
+    border-color: #f80;
+}
+
+.submitbutton {
+    display: block;
+    width: 100px;
+    height: 30px;
+    border-radius: 20px;
+    appearance: none;
+    margin: 1px;
+    padding: 3px;
+    outline: none;
+    background-color: #0000;
+    border: 2px solid;
+    border-color: #fff;
+    color: #fff;
+    font-size: 100%;
+    float: right;
+    margin-left: auto;
+}
+
+/* .finished {
+    border-color: #0f0;
+} */
