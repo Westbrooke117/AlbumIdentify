@@ -70,10 +70,5 @@ class ImageGrid extends Component {
         </div>
     }
 }
-// (props) => {
-//     
-
-   
-// };
 
 export default ImageGrid;

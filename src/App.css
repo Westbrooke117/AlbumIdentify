@@ -1,9 +1,9 @@
-html {
-    --bgcolor: #111;
-    background-color: var(--bgcolor);
+body {
+    background-color: #1A1423;
     color: #fff;
-    font: Arial;
+    font-family: Arial, serif;
 }
+
 .blocks {
     display:table-row;
 }
@@ -11,16 +11,16 @@ html {
 .block {
     display:table-cell;
     background: #F5F1ED;
-    /*border:2px solid #FFF;*/
 }
-#scoreheader{ 
+
+#scoreheader{
+    margin-top: -3px;    ;
     margin-bottom: 0;
 }
 
 #background-container {
     width: 500px;
     height: 500px;
-    /*border: solid black 1px;*/
     display:table;
     border-collapse:collapse;
     box-sizing:border-box;
@@ -29,7 +29,7 @@ html {
     -o-background-size: cover;
     background-size: cover;
     margin-bottom: 10px;
-    box-shadow: 0px 5px 10px 0px #aaf;
+    border-radius: 10px;
 }
 
 .block.revealed{
@@ -68,56 +68,49 @@ label {
     height: 40px;
     line-height: 40px;
     padding-right: 20px;
-    font-family: Arial;
     /* vertical-align: middle; */
 }
+
 .textinput {
-    /* float: right; */
-    flex-grow: 1;
-    flex-shrink: 1;
+    flex: 1 1 30px;
     height: 30px;
     line-height: 30px;
-    border-radius: 20px;
+    border-radius: 10px;
     appearance: none;
-    margin: 1px;
-    padding: 3px;
-    padding-left: 20px;
-    padding-right: 10px;
+    padding: 5px 10px;
+    margin-bottom: 5px;
     outline: none;
     background-color: #0000;
-    border: 2px solid;
     color: #fff;
-    border-color: #fff;
+    border: 2px solid #fff;
     font-size: 20px;
 }
 
 .correct {
-    color: #0f0;
-    border-color: #0f0;
+    color: #84FF7D;
+    border-color: #84FF7D;
 }
 .incorrect {
-    border-color: #f00;
+    border-color: #FF7D7D;
 }
 .semicorrect {
-    border-color: #f80;
+    border-color: #FFF27D;
 }
 
 .submitbutton {
     display: block;
     width: 100px;
     height: 30px;
-    border-radius: 20px;
+    border-radius: 10px;
     appearance: none;
-    margin: 1px;
-    padding: 3px;
+    padding: 3px 10px;
+    margin: 1px 0 5px;
     outline: none;
     background-color: #0000;
-    border: 2px solid;
-    border-color: #fff;
+    border: 2px solid #fff;
     color: #fff;
     font-size: 100%;
     float: right;
-    margin-left: auto;
 }
 
 /* .finished {

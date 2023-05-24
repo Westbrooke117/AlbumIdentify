@@ -6,7 +6,7 @@ export const getAlbumData = async (username) => {
 
     try {
         const response = await api.get(
-            `https://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user=${username}&period=7day&api_key=82d112e473f59ade0157abe4a47d4eb5&format=json`
+            `https://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user=${username}&period=3month&api_key=82d112e473f59ade0157abe4a47d4eb5&format=json`
         );
         const album = response.data.topalbums.album;
 
