@@ -1,30 +1,30 @@
 import './App.css'
 import ImageGrid from "./components/ImageGrid.jsx";
-import {useEffect, useState, createRef} from "react";
-import {getAlbumData} from "./GetAlbumData.jsx";
+import { useEffect, useState, createRef } from "react";
+import { getAlbumData } from "./GetAlbumData.jsx";
 
 function App() {
-    const [albums, setAlbums] = useState([]);
-    const [index, setIndex] = useState(Math.floor(Math.random()*albums.length));
+    let [albums, setAlbums] = useState([]);
     let [artistSim, setArtistSim] = useState("");
     let [albumSim, setAlbumSim] = useState("");
-
     let [doneArtist, setDoneArtist] = useState(false);
     let [doneAlbum, setDoneAlbum] = useState(false);
-    let [ finished, finish ] = useState(false);
+    let [finished, finish] = useState(false);
+    let [index, setIndex] = useState(0);
 
     useEffect(() => {
         (async () => {
-            const data = await getAlbumData("westbrooke117");
-            setAlbums(data);
+            const fetchedAlbums = await getAlbumData("westbrooke117", "overall");
+            setAlbums(fetchedAlbums);
+
+            const randomIndex = Math.floor(Math.random() * fetchedAlbums.length);
+            setIndex(randomIndex);
         })();
     }, []);
 
     let rf1 = createRef()
     let artistRef = createRef()
     let albumRef = createRef()
-    
-    
 
     let [ score, setScore ] = useState([0, 6]);
 
@@ -36,11 +36,11 @@ function App() {
                 <div id="textinputs">
                 <form onSubmit={artistSubmit}>
                     <label htmlFor="artistinput">Artist</label>
-                    <input id={"artistinput"} className={"textinput"} type={"text"} placeholder={"artist name..."} ref={artistRef} list={"artist-input"} size={30} autoComplete="off"></input>
+                    <input id={"artistinput"} className={"textinput"} type={"text"} ref={artistRef} list={"artist-input"} size={30} autoComplete="off"></input>
                 </form>
                 <form onSubmit={albumSubmit}>
                     <label htmlFor="albuminput">Album</label>
-                    <input id={"albuminput"} className={"textinput"} type={"text"} placeholder={"album name..."} ref={albumRef} list={"album-input"} size={30} autoComplete="off"></input>
+                    <input id={"albuminput"} className={"textinput"} type={"text"} ref={albumRef} list={"album-input"} size={30} autoComplete="off"></input>
                 </form>
                     <button className={`submitbutton${finished?" finished":""} submitbutton`} onClick={submitPressed}>{finished?"Next":"Give Up"}</button>
                 </div>

@@ -29,7 +29,6 @@ body {
     -o-background-size: cover;
     background-size: cover;
     margin-bottom: 10px;
-    border-radius: 10px;
 }
 
 .block.revealed{
