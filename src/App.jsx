@@ -1,6 +1,6 @@
 import './App.css'
 import GameView from "./components/GameView.jsx";
-import {useState} from "react";
+import { useState } from "react";
 
 function App() {
     const [formData, setFormData] = useState({
