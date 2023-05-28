@@ -1,56 +1,68 @@
 import './App.css'
 import GameView from "./components/GameView.jsx";
 import {useState} from "react";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Button from 'react-bootstrap/Button';
-import {Form} from "react-bootstrap";
 
 function App() {
-    const [formData, setFormData] = useState({username: "", period:"overall", sent: false})
+    const [formData, setFormData] = useState({
+        username: "",
+        period:"overall",
+        difficulty: 3,
+        sent: false
+    })
 
     if (formData.sent === false){
         return (
-            <div style={{marginLeft: "40%", marginRight: "40%"}}>
-                <h1 style={{textAlign: "center"}}>AlbumIdentify</h1>
-                <Form>
-                    <Form.Group>
-                        <Form.Label>last.fm Username</Form.Label>
-                        <Form.Control type="text" onChange={(event) => {
-                            setFormData({
-                                ...formData,
-                                username: event.target.value
-                            })
-                        }}/>
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Time Period</Form.Label>
-                        <Form.Select onChange={(event) => {
-                            setFormData({
-                                ...formData,
-                                period: event.target.value
-                            })
-                        }}>
-                            <option value={"overall"}>Overall</option>
-                            <option value={"12month"}>12 Months</option>
-                            <option value={"6month"}>6 Months</option>
-                            <option value={"3month"}>3 Months</option>
-                            <option value={"1month"}>1 Month</option>
-                            <option value={"7day"}>7 Days</option>
-                        </Form.Select>
-                    </Form.Group>
-                    <Button type={"submit"} onClick={(event) => {
-                        event.preventDefault();
-
+            <div className={"centerContent"}>
+                <h1>AlbumIdentify</h1>
+                <form>
+                    <label htmlFor={"username-input"}>last.fm Username:</label>
+                    <input id={"username-input"} className={"textinput"} onChange={(event) => {
                         setFormData({
                             ...formData,
-                            sent: true
+                            username: event.target.value
                         })
-                    }}>Start</Button>
-                </Form>
+                    }}/>
+                </form>
+                <form>
+                    <label htmlFor={"time-periods"}>Time Period:</label>
+                    <select name={"time-periods"} onChange={(event) => {
+                        setFormData({
+                            ...formData,
+                            period: event.target.value
+                        })
+                    }}>
+                        <option value={"overall"}>Overall</option>
+                        <option value={"12month"}>12 Months</option>
+                        <option value={"6month"}>6 Months</option>
+                        <option value={"3month"}>3 Months</option>
+                        <option value={"1month"}>1 Month</option>
+                        <option value={"7day"}>7 Days</option>
+                    </select>
+                </form>
+                <form>
+                    <label htmlFor={"difficulty"}>Difficulty:</label>
+                    <select name={"difficulty"} onChange={(event) => {
+                        setFormData({
+                            ...formData,
+                            difficulty: parseInt(event.target.value)
+                        })
+                    }}>
+                        <option value={3}>Easy (3x3)</option>
+                        <option value={5}>Medium (5x5)</option>
+                        <option value={7}>Hard (7x7)</option>
+                        <option value={9}>Impossible (9x9)</option>
+                    </select>
+                </form>
+                <button onClick={() => {
+                    setFormData({
+                        ...formData,
+                        sent: true
+                    })
+                }}>Start</button>
             </div>
         )
     } else {
-        return (<GameView username={formData.username} period={formData.period}/>)
+        return (<GameView username={formData.username} period={formData.period} size={formData.difficulty}/>)
     }
 }
 

@@ -1,0 +1,117 @@
+body {
+    background-color: #1A1423;
+    color: #fff;
+    font-family: Arial, serif;
+}
+
+.blocks {
+    display:table-row;
+}
+
+.block {
+    display:table-cell;
+    background: #F5F1ED;
+}
+
+#scoreheader{
+    margin-top: -3px;    ;
+    margin-bottom: 0;
+}
+
+#background-container {
+    width: 500px;
+    height: 500px;
+    display:table;
+    border-collapse:collapse;
+    box-sizing:border-box;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    margin-bottom: 10px;
+}
+
+.block.revealed{
+    transition: 3s;
+    background: #0000;
+}
+
+.centerContent{
+    display: flex;
+    /* flex-shrink: 100; */
+    width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    /* width: fit-content; */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#textinputs {
+    /* display */
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+form {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+label {
+    /* float: left; */
+    min-width: 60px;
+    display: inline;
+    font-size: 20px;
+    height: 40px;
+    line-height: 40px;
+    padding-right: 20px;
+    /* vertical-align: middle; */
+}
+
+.textinput {
+    flex: 1 1 30px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 10px;
+    appearance: none;
+    padding: 5px 10px;
+    margin-bottom: 5px;
+    outline: none;
+    background-color: #0000;
+    color: #fff;
+    border: 2px solid #fff;
+    font-size: 20px;
+}
+
+.correct {
+    color: #84FF7D;
+    border-color: #84FF7D;
+}
+.incorrect {
+    border-color: #FF7D7D;
+}
+.semicorrect {
+    border-color: #FFF27D;
+}
+
+.submitbutton {
+    display: block;
+    width: 100px;
+    height: 30px;
+    border-radius: 10px;
+    appearance: none;
+    padding: 3px 10px;
+    margin: 1px 0 5px;
+    outline: none;
+    background-color: #0000;
+    border: 2px solid #fff;
+    color: #fff;
+    font-size: 100%;
+    float: right;
+}
+
+/* .finished {
+    border-color: #0f0;
+} */

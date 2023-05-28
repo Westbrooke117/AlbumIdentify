@@ -147,7 +147,7 @@ function GameView(props){
     return(
         <div className={"centerContent"}>
             <h2 id="scoreheader" className={"centerContent"}>Score: {score[0]} out of {score[1]}</h2>
-            { albums.length > 0 && <ImageGrid itsover={submitPressed} ref={rf1} delay={3000} width={7} height={7} data={albums[index]}/> }
+            { albums.length > 0 && <ImageGrid itsover={submitPressed} ref={rf1} delay={3000} width={props.size} height={props.size} data={albums[index]}/> }
             <div id="textinputs">
                 <form onSubmit={artistSubmit}>
                     <label htmlFor="artistinput">Artist</label>
