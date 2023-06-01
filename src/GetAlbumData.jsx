@@ -11,17 +11,22 @@ export const getAlbumData = async (username, period) => {
         const album = response.data.topalbums.album;
         let amount = album.length;
 
-        if(amount > 50) amount = 50;
-        for (let i = 0; i < amount; i++) { //Iterate over top 50 albums
+        for (let i = 0; i < 5; i++) { //Iterate over top 50 albums
             albumData.push({
                 artist: album[i].artist.name,
                 album: album[i].name,
-                url: album[i].image[3]['#text'], //largest available image URL
+                url: GenerateHighResURL(album[i].image[3]['#text']), //largest available image URL
             });
         }
         return albumData;
     } catch (err) {
         console.log(err);
         return [];
+    }
+
+    function GenerateHighResURL(url){
+        const imageID = url.substring(46, 78)
+        return(`https://lastfm.freetls.fastly.net/i/u/770x0/${imageID}.jpg#${imageID}`)
+        //Im sorry last.fm. Don't kill me. Just let us have higher res images with the api. 500x500 even.
     }
 };
