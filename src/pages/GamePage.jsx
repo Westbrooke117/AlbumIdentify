@@ -162,7 +162,11 @@ function GamePage() {
         return(
             <>
                 <Container>
-                    <Heading mt={5} mb={5} textAlign={"center"}>You scored {score[0]} out of {score[1] - 3}!</Heading>
+                    <Heading mt={5} mb={5} textAlign={"center"}>
+                        {/*-3 added to the end since the game attempts to start a new round with no albums left in array.*/}
+                        {/*This is bad since this means that the score is incremented by 3 despite game ended. So the -3 negates that.*/}
+                        You scored {score[0]} out of {score[1] - 3}!
+                    </Heading>
                     <Flex justifyContent={"space-between"} alignItems={"center"}>
                         <Button onClick={() => {window.location.reload()}}>Play again with same settings</Button>
                         <Link to={"/"}>

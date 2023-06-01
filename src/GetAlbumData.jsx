@@ -11,7 +11,7 @@ export const getAlbumData = async (username, period) => {
         const album = response.data.topalbums.album;
         let amount = album.length;
 
-        for (let i = 0; i < 5; i++) { //Iterate over top 50 albums
+        for (let i = 0; i < 15; i++) { //Iterate over albums (15 good for game length?)
             albumData.push({
                 artist: album[i].artist.name,
                 album: album[i].name,
