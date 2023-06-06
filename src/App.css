@@ -25,13 +25,23 @@
 }
 
 .incorrect{
-    color: #dc3545;
+    border-color: #FF5969 !important;
+}
+.incorrect:focus {
+    box-shadow: none !important;
+    border-color: #FF5969 !important;
 }
 
 .semicorrect {
-    color: #ffc107;
+    border-color: #ffc107 !important;
+}
+.semicorrect:focus {
+    box-shadow: none !important;
+    border-color: #ffc107 !important;
 }
 
 .correct {
-    color: #28a745
+    color: #52D671;
+    border-color: #52D671 !important;
+    cursor: default !important;
 }
