@@ -140,11 +140,16 @@ function GamePage() {
         setIndex(Math.floor(Math.random() * albums.length))
         rf1.current.newImage();
         artistRef.current.classList.remove('correct');
+        artistRef.current.classList.remove('incorrect');
+        artistRef.current.classList.remove('semicorrect');
+
         artistRef.current.disabled = false;
         artistRef.current.value = "";
         artistRef.current.focus();
 
         albumRef.current.classList.remove('correct');
+        albumRef.current.classList.remove('incorrect');
+        albumRef.current.classList.remove('semicorrect');
         albumRef.current.disabled = false;
         albumRef.current.value = "";
 

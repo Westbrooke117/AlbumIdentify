@@ -13,7 +13,7 @@ class ImageGrid extends Component {
     componentDidMount(){
         if(this.state.interval === false) {
             this.state.interval = setInterval(_=>this.revealSquare(), this.props.delay);
-            setTimeout(this.revealSquare(), 20);
+            // setTimeout(this.revealSquare(), 20);
         }
     }
 
@@ -24,7 +24,7 @@ class ImageGrid extends Component {
         }
         clearInterval(this.state.interval);
         this.state.interval = setInterval(_=>this.revealSquare(), this.props.delay);
-        setTimeout(this.revealSquare(), 20);
+        // setTimeout(this.revealSquare(), 20);
     }
     revealAll(){
         clearInterval(this.state.interval)
