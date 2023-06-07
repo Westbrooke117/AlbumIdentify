@@ -1,6 +1,6 @@
 import {createRef, useEffect, useState} from "react";
 import {getAlbumData} from "../GetAlbumData.jsx";
-import {Button, Container, Flex, FormLabel, Heading, Input, Text} from "@chakra-ui/react";
+import {Button, Container, Fade, Flex, FormLabel, Heading, Input, Text} from "@chakra-ui/react";
 import ImageGrid from "../components/ImageGrid.jsx";
 import PlaceholderImageGrid from "../components/PlaceholderImageGrid.jsx";
 import {Link, redirect, useParams} from "react-router-dom";
@@ -185,25 +185,27 @@ function GamePage() {
         return (
             <Container>
                 <ImageGrid itsover={submitPressed} ref={rf1} delay={5000} width={parseInt(size)} height={parseInt(size)} data={albums[index]}/>
-                <form onSubmit={artistSubmit}>
-                    <Flex alignItems={'baseline'} justifyContent={'space-between'} mb={2}>
-                        <FormLabel>Artist</FormLabel>
-                        <Input style={{opacity: 1}} w={425} id={"artistinput"} type={"text"} ref={artistRef}
-                               list={"artist-input"} autoComplete="off"/>
+                <Fade in={true}>
+                    <form onSubmit={artistSubmit}>
+                        <Flex alignItems={'baseline'} justifyContent={'space-between'} mb={2}>
+                            <FormLabel>Artist</FormLabel>
+                            <Input style={{opacity: 1}} w={425} id={"artistinput"} type={"text"} ref={artistRef}
+                                   list={"artist-input"} autoComplete="off"/>
+                        </Flex>
+                    </form>
+                    <form onSubmit={albumSubmit}>
+                        <Flex alignItems={'baseline'} justifyContent={'space-between'}>
+                            <FormLabel>Album</FormLabel>
+                            <Input style={{opacity: 1}} w={425} id={"albuminput"} type={"text"} ref={albumRef}
+                                   list={"album-input"} autoComplete="off"/>
+                        </Flex>
+                    </form>
+                    <Flex mt={2} justifyContent={'space-between'} alignItems={'center'}>
+                        <Text>Score: {score[0]} out of {score[1]} points</Text>
+                        <Button className={`submitbutton${finished ? " finished" : ""} submitbutton`}
+                                onClick={submitPressed}>{finished ? "Next" : "Give Up"}</Button>
                     </Flex>
-                </form>
-                <form onSubmit={albumSubmit}>
-                    <Flex alignItems={'baseline'} justifyContent={'space-between'}>
-                        <FormLabel>Album</FormLabel>
-                        <Input style={{opacity: 1}} w={425} id={"albuminput"} type={"text"} ref={albumRef}
-                               list={"album-input"} autoComplete="off"/>
-                    </Flex>
-                </form>
-                <Flex mt={2} justifyContent={'space-between'} alignItems={'center'}>
-                    <Text>Score: {score[0]} out of {score[1]} points</Text>
-                    <Button className={`submitbutton${finished ? " finished" : ""} submitbutton`}
-                            onClick={submitPressed}>{finished ? "Next" : "Give Up"}</Button>
-                </Flex>
+                </Fade>
             </Container>
         )
     } else {

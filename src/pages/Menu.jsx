@@ -13,7 +13,11 @@ function MenuPage(){
         <Container>
             <Flex justifyContent={"center"} alignItems={"baseline"}>
                 <Heading mb={5} mt={5} textAlign={"center"}>AlbumIdentify</Heading>
-                <Text as={"sub"}>v. 0.3.1</Text>
+                <Text as={"sub"}>v. 1.0.0</Text>
+                {/*Version numbering guidelines:*/}
+                {/*First digit is for major update*/}
+                {/*Second digit is for minor update*/}
+                {/*Third digit is for a patch/bug fix*/}
             </Flex>
             <FormControl mt={5} mb={3}>
                 <FormLabel>last.fm Username</FormLabel>
