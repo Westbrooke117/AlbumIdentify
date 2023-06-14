@@ -1,20 +1,29 @@
 import {createRef, useEffect, useState} from "react";
 import {getAlbumData} from "../GetAlbumData.jsx";
-import {Button, Container, Fade, Flex, FormLabel, Heading, Input, Text} from "@chakra-ui/react";
+import {
+    Button,
+    Container,
+    Fade,
+    Flex,
+    FormLabel,
+    Heading,
+    Input,
+    Text
+} from "@chakra-ui/react";
 import ImageGrid from "../components/ImageGrid.jsx";
 import PlaceholderImageGrid from "../components/PlaceholderImageGrid.jsx";
-import {Link, redirect, useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 
 function GamePage() {
     const { username,period, size } = useParams();
 
     let [albums, setAlbums] = useState([]);
-    let [artistSim, setArtistSim] = useState("");
-    let [albumSim, setAlbumSim] = useState("");
+    let [artistSimilarity, setArtistSimilarity] = useState("");
+    let [albumSimilarity, setAlbumSimilarity] = useState("");
     let [doneArtist, setDoneArtist] = useState(false);
     let [doneAlbum, setDoneAlbum] = useState(false);
     let [finished, finish] = useState(false);
-    let [index, setIndex] = useState(0);
+    let [albumIndex, setAlbumIndex] = useState(0);
     let [receivedResponse, setResponseStatus] = useState(false);
 
     useEffect(() => {
@@ -24,11 +33,11 @@ function GamePage() {
             setResponseStatus(true);
 
             const randomIndex = Math.floor(Math.random() * fetchedAlbums.length);
-            setIndex(randomIndex);
+            setAlbumIndex(randomIndex);
         })();
     }, []);
 
-    let rf1 = createRef()
+    let imgGridRef = createRef()
     let artistRef = createRef()
     let albumRef = createRef()
 
@@ -40,14 +49,14 @@ function GamePage() {
         } else {
             // give up
             albumRef.current.disabled = true;
-            artistRef.current.value = albums[index].artist;
+            artistRef.current.value = albums[albumIndex].artist;
 
             artistRef.current.disabled = true;
-            albumRef.current.value = albums[index].album;
+            albumRef.current.value = albums[albumIndex].album;
 
             finished = true;
             finish(true);
-            rf1.current.revealAll();
+            imgGridRef.current.revealAll();
 
         }
     }
@@ -56,17 +65,17 @@ function GamePage() {
         e.preventDefault()
 
         let artistInput = artistRef.current.value;
-        let artistAnswer = albums[index].artist;
+        let artistAnswer = albums[albumIndex].artist;
 
         if (artistInput === "") return
         artistInput = artistInput.toLowerCase().replace(/[^\w\s]|_/g, "").replace(/\s+/g, " ");
         artistAnswer = artistAnswer.toLowerCase().replace(/[^\w\s]|_/g, "").replace(/\s+/g, " ");
 
-        artistSim = stringSimilarity.compareTwoStrings(artistInput, artistAnswer);
-        setArtistSim(artistSim);
-        switch (manageClass(artistRef.current, artistSim)) {
+        artistSimilarity = stringSimilarity.compareTwoStrings(artistInput, artistAnswer);
+        setArtistSimilarity(artistSimilarity);
+        switch (updateInputStyles(artistRef.current, artistSimilarity)) {
             case 0:
-                artistRef.current.value = albums[index].artist;
+                artistRef.current.value = albums[albumIndex].artist;
                 doneArtist = true;
                 setDoneArtist(true);
                 score[0] += 1;
@@ -74,7 +83,7 @@ function GamePage() {
                 if (doneAlbum) {
                     finished = true;
                     finish(true)
-                    rf1.current.revealAll();
+                    imgGridRef.current.revealAll();
                     return;
                 }
                 albumRef.current.focus();
@@ -86,18 +95,18 @@ function GamePage() {
         e.preventDefault();
 
         let albumInput = albumRef.current.value
-        let albumAnswer = albums[index].album;
+        let albumAnswer = albums[albumIndex].album;
 
         if (albumInput === "") return;
 
         albumInput = albumInput.toLowerCase().replace(/[^\w\s]|_/g, "").replace(/\s+/g, " ");
         albumAnswer = albumAnswer.toLowerCase().replace(/[^\w\s]|_/g, "").replace(/\s+/g, " ");
 
-        albumSim = stringSimilarity.compareTwoStrings(albumInput, albumAnswer);
-        setAlbumSim(albumSim);
-        switch (manageClass(albumRef.current, albumSim)) {
+        albumSimilarity = stringSimilarity.compareTwoStrings(albumInput, albumAnswer);
+        setAlbumSimilarity(albumSimilarity);
+        switch (updateInputStyles(albumRef.current, albumSimilarity)) {
             case 0:
-                albumRef.current.value = albums[index].album;
+                albumRef.current.value = albums[albumIndex].album;
                 doneAlbum = true;
                 setDoneAlbum(true);
                 score[0] += 2;
@@ -105,7 +114,7 @@ function GamePage() {
                 if (doneArtist) {
                     finished = true;
                     finish(true);
-                    rf1.current.revealAll();
+                    imgGridRef.current.revealAll();
                     return;
                 }
                 artistRef.current.focus();
@@ -113,7 +122,7 @@ function GamePage() {
         }
     }
 
-    function manageClass(div, sim) {
+    function updateInputStyles(div, sim) {
         if (sim >= 0.75) {
             div.disabled = true;
             div.classList.remove("incorrect");
@@ -135,10 +144,10 @@ function GamePage() {
         score[1] += 3
         setScore(score);
 
-        albums.splice(index, 1);
+        albums.splice(albumIndex, 1);
         setAlbums(albums);
-        setIndex(Math.floor(Math.random() * albums.length))
-        rf1.current.newImage();
+        setAlbumIndex(Math.floor(Math.random() * albums.length))
+        imgGridRef.current.newImage();
         artistRef.current.classList.remove('correct');
         artistRef.current.classList.remove('incorrect');
         artistRef.current.classList.remove('semicorrect');
@@ -160,7 +169,7 @@ function GamePage() {
         finished = false;
         finish(false);
 
-        console.log(albums.length)
+        // console.log(albums.length)
     }
 
     if(albums.length === 0 && receivedResponse){
@@ -184,7 +193,7 @@ function GamePage() {
     } if (receivedResponse){
         return (
             <Container>
-                <ImageGrid itsover={submitPressed} ref={rf1} delay={5000} width={parseInt(size)} height={parseInt(size)} data={albums[index]}/>
+                <ImageGrid itsover={submitPressed} ref={imgGridRef} delay={5000} width={parseInt(size)} height={parseInt(size)} data={albums[albumIndex]}/>
                 <Fade in={true}>
                     <form onSubmit={artistSubmit}>
                         <Flex alignItems={'baseline'} justifyContent={'space-between'} mb={2}>
@@ -211,7 +220,7 @@ function GamePage() {
     } else {
         return(
             <Container>
-                <PlaceholderImageGrid/>
+                    <PlaceholderImageGrid/>
             </Container>
         )
     }

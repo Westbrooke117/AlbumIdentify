@@ -1,4 +1,4 @@
-import {Box, Flex, Spinner, TableContainer, Text} from "@chakra-ui/react";
+import {Box, Flex, Spinner, TableContainer} from "@chakra-ui/react";
 
 function PlaceholderImageGrid(){
  return (

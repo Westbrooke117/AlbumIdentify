@@ -13,7 +13,7 @@ class ImageGrid extends Component {
     componentDidMount(){
         if(this.state.interval === false) {
             this.state.interval = setInterval(_=>this.revealSquare(), this.props.delay);
-            // setTimeout(this.revealSquare(), 20);
+            setTimeout(_=>this.revealSquare(), 20);
         }
     }
 
@@ -24,7 +24,7 @@ class ImageGrid extends Component {
         }
         clearInterval(this.state.interval);
         this.state.interval = setInterval(_=>this.revealSquare(), this.props.delay);
-        // setTimeout(this.revealSquare(), 20);
+        setTimeout(_=>this.revealSquare(), 20);
     }
     revealAll(){
         clearInterval(this.state.interval)
@@ -35,6 +35,7 @@ class ImageGrid extends Component {
         }
     }
     revealSquare(){
+        // console.error('now')
         let randomIndex = Math.floor(Math.random() * this.state.squares.length); // get random place in squares left (as squares index not tiles id)
         this.refs[this.state.squares[randomIndex]].classList.add('revealed'); // get ref with squareId (the tile's id) and add revealed class
         this.state.squares.splice(randomIndex, 1);

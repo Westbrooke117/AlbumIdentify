@@ -9,8 +9,6 @@ export const getAlbumData = async (username, period) => {
             `https://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user=${username}&period=${period}&api_key=82d112e473f59ade0157abe4a47d4eb5&format=json`
         );
         const album = response.data.topalbums.album;
-        let amount = album.length;
-
         for (let i = 0; i < 15; i++) { //Iterate over albums (15 good for game length?)
             albumData.push({
                 artist: album[i].artist.name,
