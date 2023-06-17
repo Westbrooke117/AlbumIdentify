@@ -7,16 +7,19 @@ import {
     Flex,
     FormLabel,
     Heading,
-    Input,
-    Text
+    Input, Table, Td,
+    Text, Th, Thead, Tr
 } from "@chakra-ui/react";
 import ImageGrid from "../components/ImageGrid.jsx";
 import PlaceholderImageGrid from "../components/PlaceholderImageGrid.jsx";
 import {Link, useParams} from "react-router-dom";
 
+let resultTracker = Array.from({ length: 15 }, () => ({}));
+
 function GamePage() {
     const { username,period, size } = useParams();
 
+    let [currentCount, setCurrentCount] = useState(0)
     let [albums, setAlbums] = useState([]);
     let [artistSimilarity, setArtistSimilarity] = useState("");
     let [albumSimilarity, setAlbumSimilarity] = useState("");
@@ -25,6 +28,35 @@ function GamePage() {
     let [finished, finish] = useState(false);
     let [albumIndex, setAlbumIndex] = useState(0);
     let [receivedResponse, setResponseStatus] = useState(false);
+
+    //This is used to lower the chance of guessing variations of an album name
+    const albumVariations = [
+        "Remastered",
+        "Deluxe Edition",
+        "Expanded Edition",
+        "feat.",
+        "Original Television Soundtrack",
+        "Original Motion Picture Soundtrack",
+        "TV",
+        "Expanded",
+        "Anniversary Edition",
+        "Special Edition",
+        "Collector's Edition",
+        "Bonus Tracks",
+        "Reissue",
+        "Redux",
+        "Ultimate Edition",
+        "Acoustic Version",
+        "Live Version",
+        "Instrumental Version",
+        "Remix",
+        "20th Anniversary Edition",
+        "30th Anniversary Edition",
+        "Original Soundtrack",
+        "Greatest Hits",
+        "Compilation",
+        "Best Of"
+    ];
 
     useEffect(() => {
         (async () => {
@@ -44,6 +76,8 @@ function GamePage() {
     let [score, setScore] = useState([0, 3]);
 
     function submitPressed() {
+        resultTracker[currentCount].artistName = albums[albumIndex].artist;
+        resultTracker[currentCount].albumName = albums[albumIndex].album;
         if (finished) {
             nextAlbum();
         } else {
@@ -57,7 +91,6 @@ function GamePage() {
             finished = true;
             finish(true);
             imgGridRef.current.revealAll();
-
         }
     }
 
@@ -80,6 +113,7 @@ function GamePage() {
                 setDoneArtist(true);
                 score[0] += 1;
                 setScore(score);
+                resultTracker[currentCount].artistIsCorrect = true;
                 if (doneAlbum) {
                     finished = true;
                     finish(true)
@@ -102,6 +136,15 @@ function GamePage() {
         albumInput = albumInput.toLowerCase().replace(/[^\w\s]|_/g, "").replace(/\s+/g, " ");
         albumAnswer = albumAnswer.toLowerCase().replace(/[^\w\s]|_/g, "").replace(/\s+/g, " ");
 
+        for (let i = 0; i < albumVariations.length; i++){
+            if (albumInput.includes(albumVariations[i].toLowerCase())){
+                albumInput = albumInput.replaceAll(albumVariations[i].toLowerCase(),"")
+            }
+            if (albumAnswer.includes(albumVariations[i].toLowerCase())){
+                albumAnswer = albumAnswer.replaceAll(albumVariations[i].toLowerCase(),"")
+            }
+        }
+
         albumSimilarity = stringSimilarity.compareTwoStrings(albumInput, albumAnswer);
         setAlbumSimilarity(albumSimilarity);
         switch (updateInputStyles(albumRef.current, albumSimilarity)) {
@@ -111,6 +154,7 @@ function GamePage() {
                 setDoneAlbum(true);
                 score[0] += 2;
                 setScore(score);
+                resultTracker[currentCount].albumIsCorrect = true;
                 if (doneArtist) {
                     finished = true;
                     finish(true);
@@ -141,6 +185,7 @@ function GamePage() {
     }
 
     function nextAlbum() {
+        setCurrentCount(currentCount + 1)
         score[1] += 3
         setScore(score);
 
@@ -173,6 +218,7 @@ function GamePage() {
     }
 
     if(albums.length === 0 && receivedResponse){
+        console.log(resultTracker)
         return(
             <>
                 <Container>
@@ -182,11 +228,29 @@ function GamePage() {
                         You scored {score[0]} out of {score[1] - 3}!
                     </Heading>
                     <Flex justifyContent={"space-between"} alignItems={"center"}>
-                        <Button onClick={() => {window.location.reload()}}>Play again with same settings</Button>
+                        <Button onClick={() => {window.location.reload()}}>Play Again with Same Settings</Button>
                         <Link to={"/"}>
-                            <Button>Back to start menu</Button>
+                            <Button>Back to Menu</Button>
                         </Link>
                     </Flex>
+                    <Table size={'xs'} mt={5}>
+                        <Thead>
+                            <Tr>
+                                <Th>#</Th>
+                                <Th>Artist</Th>
+                                <Th>Album</Th>
+                            </Tr>
+                        </Thead>
+                        {
+                            resultTracker.map((album, index) =>
+                                <Tr>
+                                    <Th>{index + 1}</Th>
+                                    {resultTracker[index].artistIsCorrect === true ? <Td>✔ {resultTracker[index].artistName}</Td> : <Td>❌ {resultTracker[index].artistName}</Td>}
+                                    {resultTracker[index].albumIsCorrect === true ? <Td>✔ {resultTracker[index].albumName}</Td> : <Td>❌ {resultTracker[index].albumName}</Td>}
+                                </Tr>
+                            )
+                        }
+                    </Table>
                 </Container>
             </>
         )

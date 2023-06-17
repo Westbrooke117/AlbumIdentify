@@ -8,13 +8,19 @@ export const getAlbumData = async (username, period) => {
         const response = await api.get(
             `https://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user=${username}&period=${period}&api_key=82d112e473f59ade0157abe4a47d4eb5&format=json`
         );
-        const album = response.data.topalbums.album;
-        for (let i = 0; i < 15; i++) { //Iterate over albums (15 good for game length?)
+        const albumList = response.data.topalbums.album;
+        const numberOfAlbums = 15;
+
+        for (let i = 0; i < numberOfAlbums; i++) {
+            let randomValue = Math.floor(Math.random() * albumList.length);
+
             albumData.push({
-                artist: album[i].artist.name,
-                album: album[i].name,
-                url: GenerateHighResURL(album[i].image[3]['#text']), //largest available image URL
+                artist: albumList[randomValue].artist.name,
+                album: albumList[randomValue].name,
+                url: GenerateHighResURL(albumList[randomValue].image[3]['#text'])
             });
+
+            albumList.splice(randomValue, 1); // Remove the selected album from albumList
         }
         return albumData;
     } catch (err) {

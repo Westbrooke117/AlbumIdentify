@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {Button, Container, Flex, FormControl, FormLabel, Heading, Input, Select, Text} from "@chakra-ui/react";
+import {Button, Container, Flex, FormControl, FormLabel, Heading, Input, Select, Table, Text, Tr, Td, Th, Thead, Tbody} from "@chakra-ui/react";
 import {Link} from "react-router-dom";
 
 function MenuPage(){
@@ -13,7 +13,7 @@ function MenuPage(){
         <Container>
             <Flex justifyContent={"center"} alignItems={"baseline"}>
                 <Heading mb={5} mt={5} textAlign={"center"}>AlbumIdentify</Heading>
-                <Text as={"sub"}>v. 1.0.0</Text>
+                <Text as={"sub"} style={{textDecoration:"underline"}}><Link to={"/changelog"}>v. 1.0.1</Link></Text>
                 {/*Version numbering guidelines:*/}
                 {/*First digit is for major update*/}
                 {/*Second digit is for minor update*/}
@@ -43,14 +43,14 @@ function MenuPage(){
                 <option value={"12month"}>Last 365 days</option>
             </Select>
             <FormLabel>Difficulty</FormLabel>
-            <Select mb={3} name={"difficulty"} onChange={(event) => {
+            <Select defaultValue={5} mb={3} name={"difficulty"} onChange={(event) => {
                 setFormData({
                     ...formData,
                     difficulty: parseInt(event.target.value)
                 })
             }}>
                 <option value={3}>Easy (3x3)</option>
-                <option selected={true} value={5}>Medium (5x5)</option>
+                <option value={5}>Medium (5x5)</option>
                 <option value={7}>Hard (7x7)</option>
                 <option value={9}>Insane (9x9)</option>
             </Select>
