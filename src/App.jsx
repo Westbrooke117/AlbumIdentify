@@ -6,10 +6,6 @@ import GamePage from "./pages/GamePage.jsx";
 import NoPage from "./pages/NoPage.jsx";
 import Summary from "./pages/Summary.jsx";
 import Changelog from "./pages/Changelog.jsx";
-import ReactGA from 'react-ga';
-
-const TRACKING_ID = "G-C0TYE3ZQEC"; // YOUR_OWN_TRACKING_ID
-ReactGA.initialize(TRACKING_ID);
 
 function App() {
     return (

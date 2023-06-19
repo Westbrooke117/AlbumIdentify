@@ -13,7 +13,7 @@ function MenuPage(){
         <Container>
             <Flex justifyContent={"center"} alignItems={"baseline"}>
                 <Heading mb={5} mt={5} textAlign={"center"}>AlbumIdentify</Heading>
-                <Text as={"sub"} style={{textDecoration:"underline"}}><Link to={"/changelog"}>v. 1.0.1</Link></Text>
+                <Text as={"sub"} style={{textDecoration:"underline"}}><Link to={"/changelog"}>v. 1.0.2</Link></Text>
                 {/*Version numbering guidelines:*/}
                 {/*First digit is for major update*/}
                 {/*Second digit is for minor update*/}
